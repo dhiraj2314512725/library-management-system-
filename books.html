@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book | Library Terminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Icons+Round&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+            background: #0f172a;
+        }
+
+        /* Background Image */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlpy_LagdPKxe1hvUTwABCRzNLZ9P_pm261A&s') center/cover no-repeat;
+            filter: brightness(0.2);
+            z-index: -1;
+        }
+
+        .container {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+            max-width: 500px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 { margin: 0; font-size: 28px; }
+        .subtitle { color: #cbd5e1; margin-top: 5px; margin-bottom: 25px; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 14px; }
+
+        .input-wrapper { position: relative; }
+        .input-icon { position: absolute; left: 12px; top: 12px; color: #94a3b8; }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        .form-control:focus { outline: none; border-color: var(--primary); background: rgba(0,0,0,0.3); }
+
+        .row-layout { display: flex; gap: 15px; }
+        
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover { transform: scale(1.02); background: #4f46e5; }
+
+        .home-link { color: #60a5fa; text-decoration: none; font-size: 14px; font-weight: 600; display: flex; align-items: center; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Add Book 📚</h2>
+            <a href="{{ url_for('dashboard') }}" class="home-link">
+                <span class="material-icons-round">home</span> Home
+            </a>
+        </div>
+        <p class="subtitle">Fill in the details to add a new book.</p>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div style="background:#065f46; padding:10px; border-radius:10px; margin-bottom:15px; text-align:center;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Book Image URL</label>
+            <div class="input-wrapper">
+                <span class="material-icons-round input-icon">link</span>
+                <input type="text" name="books_image" class="form-control" placeholder="Image URL">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Book Title <span style="color:#f87171;">*</span></label>
+            <div class="input-wrapper">
+                <span class="material-icons-round input-icon">menu_book</span>
+                <input type="text" name="title" class="form-control" placeholder="Book Name" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Author Name <span style="color:#f87171;">*</span></label>
+            <div class="input-wrapper">
+                <span class="material-icons-round input-icon">person</span>
+                <input type="text" name="author" class="form-control" placeholder="Author Name" required>
+            </div>
+        </div>
+
+        <div class="row-layout">
+            <div class="form-group" style="flex:1;">
+                <label>Year</label>
+                <input type="number" name="published_year" class="form-control" placeholder="2026">
+            </div>
+            <div class="form-group" style="flex:1;">
+                <label>Price (₹)</label>
+                <input type="number" step="0.01" name="price" class="form-control" placeholder="0.00">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Copies <span style="color:#f87171;">*</span></label>
+            <input type="number" name="quantity" class="form-control" value="1" required>
+        </div>
+
+        <button type="submit" class="btn-submit">Save New Book</button>
+    </form>
+</div>
+
+</body>
+</html>

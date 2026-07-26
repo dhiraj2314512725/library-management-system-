@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Borrowing Records</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --dark: #0f172a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 40px;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Background with Image Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.scisdata.com/media/1333/scis_bl0417_2_119.jpg') center/cover no-repeat;
+            filter: brightness(0.4);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 { margin: 0 0 10px 0; font-size: 28px; }
+
+        a { color: #60a5fa; text-decoration: none; font-weight: 600; margin-bottom: 20px; display: inline-block; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        th { background: var(--primary); padding: 15px; text-align: left; }
+        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        tr:hover { background: rgba(255,255,255,0.05); }
+
+        .status-pill {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-return {
+            background: #ef4444;
+            color: white;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-return:hover { background: #dc2626; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📋 Book Returns & Active Loans Desk</h2>
+    <a href="{{ url_for('dashboard') }}">← Back to Main Administration</a>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: #34d399; font-weight: bold; text-align: center;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Book Title</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in loans %}
+            <tr>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td><strong>{{ row[3] }}</strong></td>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>
+                    <span class="status-pill" style="background: {% if row[7] == 'Issued' %}#f59e0b{% else %}#10b981{% endif %};">
+                        {{ row[7] }}
+                    </span>
+                </td>
+                <td>
+                    {% if row[7] == 'Issued' %}
+                       <a href="{{ url_for('return_book', id=row[0]) }}" class="btn-return">Process Return</a>
+                    {% else %}
+                       <span style="color: #94a3b8; font-size:12px;">Returned: {{ row[6] }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Students | Library System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <div class="form-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>👥 Registered Students</h2>
+            <a href="{{ url_for('dashboard') }}" class="home-link">
+                <span class="material-icons-round">home</span> Home
+            </a>
+        </div>
+        <p class="subtitle">List of all currently registered students in the system.</p>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="flash-msg">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>Generated Student ID</th>
+                <th>Full Name</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td><strong class="student-id">{{ student[0] }}</strong></td>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" class="no-data">No students registered yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

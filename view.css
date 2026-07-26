@@ -1,0 +1,178 @@
+:root {
+    --primary: #38bdf8;
+    --dark-bg: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Inter', sans-serif;         
+    background-color: var(--dark-bg);           
+    color: var(--text-main);
+    margin: 0;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--card-bg); 
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    border: 1px solid #334155;
+}
+
+/* Header Section */
+.form-header {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #334155;
+    padding-bottom: 20px;
+}
+
+.form-header h2 {
+    margin: 0;
+    color: var(--text-main);
+    font-size: 28px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    margin: 5px 0 0 0;
+    font-size: 15px;
+}
+
+.home-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.home-link:hover {
+    background: rgba(56, 189, 248, 0.1);
+    color: #ffffff;
+}
+
+/* टेबल के बाहरी और अंदरूनी बॉर्डर */
+ .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 1;
+            margin-top: 10px;
+        }
+
+        .custom-table th {
+            background-color: #0c4a6e; /* डीप ओशन ब्लू हेडर */
+            color: #e0f2fe; /* बहुत हल्का आसमानी टेक्स्ट */
+            padding: 14px 16px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: left;
+            border-bottom: 2px solid #0284c7;
+        }
+
+        .custom-table th:first-child { border-top-left-radius: 8px; }
+        .custom-table th:last-child { border-top-right-radius: 8px; }
+
+        .custom-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #334155;
+            color: #cbd5e1; /* सॉफ्ट लाइट ब्लू-ग्रे टेक्स्ट */
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        /* ✨ स्मूड रो-हाइलाइट और नीली चमक (Blue Glow) */
+        .custom-table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #0f172a; /* रो होवर पर डीप ब्लू बैकग्राउंड */
+            transform: scale(1.008); 
+            box-shadow: inset 4px 0 0 #38bdf8, 0 4px 15px rgba(0, 0, 0, 0.4); /* लेफ्ट साइड में स्काई ब्लू बॉर्डर इंडिकेटर */
+        }
+
+.no-data { text-align: center; color: var(--text-muted); padding: 20px !important; }
+
+.flash-msg {
+    color: #065f46; 
+    font-weight: bold; 
+    background: #d1fae5; 
+    padding: 12px; 
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.containers {
+    max-width: 500px;
+    margin: 0 auto;
+    background: var(--card-bg); 
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    border: 1px solid #334155;
+}
+/* Form Controls */
+.form-control { 
+    width: 100%; 
+    padding: 12px; 
+    margin: 8px 0 15px 0; 
+    border: 1px solid #334155; 
+    border-radius: 8px; 
+    box-sizing: border-box; 
+    background: #0f172a; 
+    color: white; 
+}
+
+label { 
+    font-weight: 600; 
+    font-size: 14px; 
+    color: #94a3b8;
+    margin-top: 10px; 
+    display: block; 
+}
+
+/* Register Button */
+.btn-register {
+    background-color: #38bdf8; 
+    color: #0f172a; 
+    border: none; 
+    padding: 14px; 
+    width: 100%; 
+    border-radius: 8px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    margin-top: 20px;
+    transition: var(--transition);
+}
+
+.btn-register:hover {
+    background-color: #7dd3fc;
+    transform: translateY(-2px);
+}
+
+/* Alert/Flash Message Styling */
+.flash-msg {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.flash-msg.error {
+    background: #fee2e2;
+    color: #991b1b;
+}

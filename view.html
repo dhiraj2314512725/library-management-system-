@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books Catalog Inventory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 🎨 Custom Blue Palette Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* डीप डार्क ब्लू बैकग्राउंड (Slate Dark) */
+            color: #f1f5f9;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .catalog-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #1e293b; /* मीडियम डार्क ब्लू कार्ड (Slate Medium) */
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.4s ease-out;
+            border: 1px solid #334155; /* हल्का ब्लू-ग्रे बॉर्डर */
+        }
+
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 20px;
+        }
+
+        .catalog-header h2 {
+            color: #38bdf8; /* स्काई ब्लू (Sky Blue) हाइलाइट */
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-back {
+            background: #0284c7; /* कोर ब्लू बटन */
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background: #0369a1; /* डार्क शेड ब्लू होवर */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -2px rgba(2, 132, 199, 0.5);
+        }
+
+        /* 📊 टेबल डिज़ाइन */
+        .custom-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 1;
+            margin-top: 10px;
+        }
+
+        .custom-table th {
+            background-color: #0c4a6e; /* डीप ओशन ब्लू हेडर */
+            color: #e0f2fe; /* बहुत हल्का आसमानी टेक्स्ट */
+            padding: 14px 16px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: left;
+            border-bottom: 2px solid #0284c7;
+        }
+
+        .custom-table th:first-child { border-top-left-radius: 8px; }
+        .custom-table th:last-child { border-top-right-radius: 8px; }
+
+        .custom-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #334155;
+            color: #cbd5e1; /* सॉफ्ट लाइट ब्लू-ग्रे टेक्स्ट */
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        /* ✨ स्मूड रो-हाइलाइट और नीली चमक (Blue Glow) */
+        .custom-table tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #0f172a; /* रो होवर पर डीप ब्लू बैकग्राउंड */
+            transform: scale(1.008); 
+            box-shadow: inset 4px 0 0 #38bdf8, 0 4px 15px rgba(0, 0, 0, 0.4); /* लेफ्ट साइड में स्काई ब्लू बॉर्डर इंडिकेटर */
+        }
+
+        /* बुक कवर इमेज स्टाइल */
+        .book-img {
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #475569;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+
+        .book-img:hover {
+            transform: scale(1.1) rotate(2deg);
+            border-color: #38bdf8;
+        }
+
+        /* 🔵 ऐक्शन्स बटन्स */
+        .btn-action-issue {
+            background: #0ea5e9; /* चमकीला लाइट ब्लू बटन */
+            color: white;
+            padding: 8px 14px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-right: 5px;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(14, 165, 233, 0.3);
+            transition: all 0.2s;
+        }
+
+        .btn-action-issue:hover {
+            background: #38bdf8;
+            transform: translateY(-1px);
+        }
+
+        .btn-action-delete {
+            background: #ba1a1a; /* डार्क रेड (ताकि ब्लू थीम पर सूट करे और भड़कीला न लगे) */
+            color: white;
+            padding: 8px 14px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn-action-delete:hover {
+            background: #ef4444;
+            transform: translateY(-1px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="catalog-container">
+    <div class="catalog-header">
+        <h2>📚 Books Inventory</h2>
+       <a href="{{ url_for('dashboard') }}" class="btn-back">Back to Dashboard</a>
+
+
+    </div>
+
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cover</th>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Stock Status</th>
+                <th style="text-align: center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td><span style="color: #38bdf8; font-weight: 600;">#{{ book[0] }}</span></td>
+                <td>
+                    {% if book[1] %}
+                        <img src="{{ book[1] }}" width="45" height="65" class="book-img">
+                    {% else %}
+                        <span style="color: #64748b; font-style: italic; font-size: 12px;">No Img</span>
+                    {% endif %}
+                </td>
+                <td style="font-weight: 600; color: #f8fafc;">{{ book[2] }}</td>
+                <td>{{ book[3] }}</td>
+                <td><span style="background: #0f172a; color: #38bdf8; padding: 4px 8px; border-radius: 4px; font-size: 12px; border: 1px solid #334155;">{{ book[4] }}</span></td>
+                <td style="font-weight: 600; color: #38bdf8;">₹{{ book[5] }}</td>
+                <td>
+                    <span style="padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; color: #ffffff; background: {% if book[7] > 0 %}#059669{% else %}#b91c1c{% endif %};">
+                        {{ book[7] }} Available
+                    </span>
+                    <div style="color: #94a3b8; font-size: 11px; margin-top: 5px;">(Total Copies: {{ book[6] }})</div>
+                </td>
+                <td style="text-align: center;">
+                    <a href="{{ url_for('issue_book', book_id=book[0]) }}" class="btn-action-issue">Issue Book</a>
+                    <a href="{{ url_for('delete_book', id=book[0]) }}" class="btn-action-delete">Remove</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" style="text-align: center; color: #64748b; padding: 30px;">No books available in the inventory.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

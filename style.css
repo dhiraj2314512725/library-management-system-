@@ -1,0 +1,104 @@
+:root {
+    --bg-light: #f0f9ff;          /* एकदम हल्का स्काई ब्लू बैकग्राउंड */
+    --card-bg: #ffffff;           /* क्लीन व्हाइट कार्ड */
+    --primary: #0284c7;           /* वाइब्रेंट स्काई ब्लू */
+    --primary-hover: #0369a1;
+    --text-main: #1e293b;         /* गहरा ग्रे (पढ़ने में आसान) */
+    --text-muted: #64748b;        /* सॉफ्ट ग्रे */
+    --border-color: #bae6fd;      /* हल्का नीला बॉर्डर */
+    --radius: 16px;
+}
+
+body {
+    margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      /* यहाँ बदलाव किया गया है */
+      background-image: url('https://media.istockphoto.com/id/1333350309/photo/smiling-bearded-indian-businessman-stands-near-desk-and-looks-at-the-camera.jpg?s=612x612&w=0&k=20&c=VMS8TMG-phece_zEBW8Ru-MRHE1VOU-GGG1Ix6dJYcs=');
+      background-position: center;     /* इमेज को सेंटर में रखेगा */
+      background-size: cover;          /* पूरी स्क्रीन कवर करेगा */
+      background-repeat: no-repeat;    /* इमेज रिपीट नहीं होगी */
+      background-attachment: fixed;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.514);
+    padding: 40px;
+    border-radius: 20px;
+    margin-left: 50%;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 15px 35px rgba(245, 240, 240, 0.966);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    color: #0c4a6e;
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 13px;
+    border: 2px solid #e0f2fe;
+    border-radius: var(--radius);
+    background-color: #ffffff;
+    color: var(--text-main);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    background-color: #f8fafc;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
+}
+
+/* रीड-ओनली फील्ड्स को थोड़ा और अलग दिखाएं */
+.form-control[readonly] {
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+}
+
+.btn-submit {
+    background: var(--primary);
+    color: white;
+    font-weight: 700;
+    padding: 14px;
+    border-radius: var(--radius);
+    border: none;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(2, 132, 199, 0.3);
+}
+
+.btn-submit:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(2, 132, 199, 0.4);
+}
+
+label { 
+    color: #475569;
+    font-weight: 600;
+    margin-bottom: 8px;
+}

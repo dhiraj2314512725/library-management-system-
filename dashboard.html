@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Home</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      
+      
+    }
+    header {
+      background-color: #3e2723;
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .hero {
+      background: url('https://static.vecteezy.com/system/resources/previews/038/818/336/non_2x/ai-generated-a-modern-library-featuring-sleek-shelves-and-minimalist-design-free-photo.jpeg') center/cover no-repeat;
+      color: white;
+      text-align: center;
+      padding: 120px 20px;
+    }
+    .hero h2 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+    .hero button {
+      background-color: #ff9800;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 5px;
+    }
+    .sections {
+      display: flex;
+      justify-content: space-around;
+      padding: 40px 20px;
+      background-color: #fff;
+    }
+    .section {
+      width: 30%;
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .section h3 {
+      color: #3e2723;
+    }
+    footer {
+      background-color: #3e2723;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    a {
+      text-decoration: none;
+      }
+  </style>
+</head>
+<body>
+    
+  <header>
+    <h1>📚 LIBRARY</h1>
+    <nav>
+      <a href="/">Home</a>
+      <!-- <a href="/books">Books</a> -->
+      <a href="/login">Login</a>
+        
+    
+
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Welcome to Your Library</h2>
+    <p>Explore. Discover. Learn.</p>
+    <button>Browse Catalog</button>
+    <button>Digital Collections</button>
+  </section>
+
+  <section class="sections">
+    <div class="section">
+      <h3>Books Collection</h3>
+      <p>Explore the books available in your library.</p>
+      <button>
+        <a href="/view_books">View Books</a>
+      </button>
+    </div>
+    <div class="section">
+     <h3>Add New Books</h3>
+     <p>Expand your library by adding new titles.</p>
+     <button type="submit">
+     <a href="/books">Add Books</a>
+     </button>
+    </div>
+    <div class="section">
+      <h3>Research & Resources</h3>
+      <p>Find articles and databases easily.</p>
+      <button>Explore Resources</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>Library Hours: Mon–Fri 9 AM–7 PM | Sat 10 AM–5 PM | Sun 12 PM–4 PM</p>
+    <p>&copy; 2026 Your Library. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

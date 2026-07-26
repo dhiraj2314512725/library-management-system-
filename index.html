@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Administration Dashboard</title>
+  <style>
+    /* --- MODERN THEME VARIABLES --- */
+    :root {
+      --primary: #4f46e5;       /* Indigo */
+      --primary-hover: #4338ca;
+      --dark-bg: #1e293b;      /* Navy Slate */
+      --light-bg: #f1f5f9;     /* Light Gray-Blue */
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --white: #ffffff;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: var(--light-bg);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    /* --- ENTRANCE ANIMATIONS --- */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- HEADER --- */
+    header {
+      background-color: var(--dark-bg);
+      color: var(--white);
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 6px -1px rgb(253, 252, 252);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+      letter-spacing: 1px;
+    }
+
+    nav { display: flex; align-items: center; }
+
+    nav a {
+      color: #ece9e6ad;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    nav a:hover { color: var(--white); }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      background: linear-gradient(hsla(240, 4%, 5%, 0.986), rgba(246, 248, 247, 0.11)), 
+                  url('https://static.vecteezy.com/system/resources/previews/038/818/336/non_2x/ai-generated-a-modern-library-featuring-sleek-shelves-and-minimalist-design-free-photo.jpeg') center/cover no-repeat;
+      color: var(--white);
+      text-align: center;
+      padding: 140px 20px;
+    }
+
+    .hero h1, .hero h2, .hero p {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .hero h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 4px; color: #818cf8; margin-bottom: 10px; }
+    .hero h2 { font-size: 56px; margin: 0 0 15px 0; font-weight: 800; }
+    .hero p { font-size: 20px; color: #e2e8f0; max-width: 700px; margin: 0 auto 30px auto; }
+
+    /* --- SECTIONS GRID --- */
+    .sections {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      padding-top: 40px;
+      padding-bottom: 40px;
+      max-width: 1300px;
+      margin: 0 auto;
+      animation: fadeInUp 1s ease forwards;
+      
+    }
+
+    .section {
+      background: black;
+      text-align: center;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 1px solid transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .section:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary);
+      box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.1);
+    }
+
+    .section h3 { color: var(--dark-bg); margin-top: 0; font-size: 22px; }
+    .section p { color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; }
+
+    /* --- BUTTONS --- */
+    .btn {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--white);
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+      box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+      transform: scale(1.02);
+    }
+
+    /* --- PROFILE DROPDOWN (CHECKBOX HACK) --- */
+    .profile-container { position: relative; }
+    #menu-toggle { display: none; }
+    
+    .user-avatar {
+      width: 42px; height: 42px; 
+      background: var(--primary); 
+      color: white;
+      border-radius: 50%; 
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; cursor: pointer;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+    
+    .user-avatar:hover { border-color: white; transform: rotate(5deg); }
+
+    /* 1. ड्रॉपडाउन को एक उच्च z-index दें */
+.dropdown-menu {
+    display: block; 
+    position: absolute; 
+    right: 0; 
+    top: 60px;
+    background: rgba(255, 255, 255, 0.678);
+    min-width: 180px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border-radius: 12px; 
+    padding: 15px;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: var(--transition);
+    z-index: 1000; /* इसे बढ़ाएं */
+}    
+    #menu-toggle:checked ~ .dropdown-menu { 
+      opacity: 1; 
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .dropdown-menu span { display: block; color: var(--text-main); margin-bottom: 10px; font-weight: 700; }
+    .dropdown-menu hr { border: 0; border-top: 1px solid #e2e8f0; margin: 10px 0; }
+    .dropdown-menu a { color: #ef4444; font-weight: bold; margin: 0; font-size: 14px; }
+
+    /* 2. ओवरले का z-index ड्रॉपडाउन से कम रखें */
+    .overlay {
+    display: none; 
+    position: fixed;
+    top: 0; left: 0; 
+    width: 100vw; height: 100vh;
+    z-index: 999; /* ड्रॉपडाउन (1000) से कम */
+}
+    #menu-toggle:checked ~ .overlay { display: block; }
+
+    /* --- FOOTER --- */
+    footer {
+    background-color: var(--dark-bg);
+    color: #94a3b8;
+    padding: 60px 20px 20px 20px;
+    margin-top: 80px;
+    text-align: center;
+    border-top: 5px solid var(--primary);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1px;
+    max-width: 1000px;
+    margin: 0 auto 40px auto;
+    text-align: left;
+}
+
+.footer-section h3 {
+    color: var(--white);
+    font-size: 18px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.footer-bottom {
+    border-top: 1px solid #334155;
+    padding-top: 0px;
+    font-size: 13px;
+    color: #64748b;
+}
+    
+  </style>
+</head>
+<body>
+    
+<header>
+    <h1>📚 LIBRARY MANAGEMT SYSTEM</h1>
+    <nav>
+        <a href="{{ url_for('dashboard') }}">Home</a>
+        
+        {% if 'user_id' in session %}
+        <div class="profile-container">
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="user-avatar">{{ session['username'][0].upper() }}</label>
+    
+    <label for="menu-toggle" class="overlay"></label>
+    <div class="dropdown-menu">
+        <span>👤 {{ session['username'] }}</span>
+        <hr>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</div>
+        {% endif %}
+    </nav>
+</header>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="alert-container" style="max-width: 600px; margin: 20px auto;">
+      {% for message in messages %}
+        <p style="color: #065f46; font-weight: 600; background: #d1fae5; padding: 12px; border: 1px solid #a7f3d0; text-align: center; margin: 0;">
+          {{ message }}
+        </p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<section class="hero">
+    <h1>Welcome to your Library</h1>
+    <h2>The Knowledge Hub</h2>
+    <p>Track Books, Control Inventory, Manage Issued Assets & Returns with precision.</p>
+    <a href="{{ url_for('view_catalog') }}" class="btn" >Manage Books</a>
+</section>
+
+<section class="sections">
+    <div class="section">
+      <h3>Books Collection</h3>
+      <p>View complete catalog collections and real-time inventory status.</p>
+      <a href="{{ url_for('view_catalog') }}" class="btn">View Books</a>
+    </div>
+
+    <div class="section">
+      <h3>Add New Books</h3>
+      <p>Register new incoming physical book volumes to the hub.</p>
+      <a href="{{ url_for('add_book') }}" class="btn">Add Books</a>
+    </div>
+
+    <div class="section">
+      <h3>Issue Books</h3>
+      <p>Log outbound book transactions to student profiles easily.</p>
+      <a href="{{ url_for('issue_book') }}" class="btn">Issue Book</a>
+    </div>
+
+    <div class="section">
+      <h3>Student Registration</h3>
+      <p>Enroll new members and auto-generate official Student IDs.</p>
+      <a href="{{ url_for('register_student') }}" class="btn">Add Student</a>
+    </div>
+
+    <div class="section">
+      <h3>Students Directory</h3>
+      <p>Manage and look up profiles of all registered students.</p>
+      <a href="{{ url_for('view_students') }}" class="btn" >View Students</a>
+    </div>
+
+    <div class="section">
+      <h3>Issued Books List</h3>
+      <p>Check active records, track deadlines, and process Returns.</p>
+      <a href="{{ url_for('view_issued_books') }}" class="btn">Return Desk</a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>THE KNOWLEDGE HUB</h3>
+            <p>Empowering minds through seamless library management.</p>
+        </div>
+        <div class="footer-section">
+            <h3>OPERATING HOURS</h3>
+            <p>🕒 Mon–Fri: 9 AM – 7 PM</p>
+            <p>🕒 Sat: 10 AM – 5 PM</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 The Knowledge Hub. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>

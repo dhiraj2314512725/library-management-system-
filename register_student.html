@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Student | Library System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='view.css') }}">
+</head>
+<body>
+
+<div class="containers">
+    <div class="form-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>👥 Register New Student</h2>
+            <a href="{{ url_for('dashboard') }}" class="home-link">
+                <span class="material-icons-round">home</span> Home
+            </a>
+        </div>
+        <p class="subtitle">Fill in the details to register a new student.</p>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash-msg {% if 'Error' in message %}error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('register_student') }}">
+        <label>Student Full Name:</label>
+        <input type="text" name="name" class="form-control" placeholder="Enter Full Name" required>
+
+        <label>Phone Number:</label>
+        <input type="tel" name="phone" class="form-control" placeholder="Enter 10 Digit Phone" 
+               minlength="10" maxlength="15" pattern="[0-9]+" required>
+
+        <label>Address:</label>
+        <textarea name="address" class="form-control" rows="3" placeholder="Enter Local Address" required></textarea>
+
+        <button type="submit" class="btn-register">Register & Generate ID</button>
+    </form>
+</div>
+
+</body>
+</html>

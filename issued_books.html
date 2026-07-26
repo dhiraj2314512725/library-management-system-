@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Issue System Desk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary: #6366f1; 
+            --primary-hover: #4f46e5; 
+            --error: #ef4444; 
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0;
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            padding: 20px; 
+            color: #ffffff;
+            background: #0f172a;
+        }
+
+        /* Background Image Updated */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://karnanisoft.com/wp-content/uploads/2021/11/book-library.jpg') center/cover no-repeat;
+            filter: brightness(0.5);
+            z-index: -1;
+        }
+
+        .container { 
+            max-width: 550px; 
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(15px);
+            padding: 35px; 
+            border-radius: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        h2 { margin: 0 0 20px 0; font-size: 26px; }
+
+        .form-control { 
+            width: 100%; 
+            padding: 13px; 
+            margin: 8px 0 16px 0; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-size: 14px; 
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .form-control:focus { outline: none; border-color: var(--primary); background: rgba(0,0,0,0.4); }
+        .form-control[readonly] { color: #94a3b8; cursor: not-allowed; }
+
+        .form-row { display: flex; gap: 15px; }
+        .form-group { flex: 1; }
+
+        label { font-weight: 600; font-size: 13px; color: #cbd5e1; margin-bottom: 6px; display: block; }
+
+        .btn-submit { 
+            background-color: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 15px; 
+            width: 100%; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+
+        a { color: #60a5fa; text-decoration: none; font-weight: 600; font-size: 14px; }
+        a:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Issue books 📚</h2>
+        <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}{% for message in messages %}
+                <p style="color: var(--error); text-align: center; font-weight: bold;">{{ message }}</p>
+            {% endfor %}{% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('issue_book') }}" id="issueForm">
+            <label>Student ID:</label>
+            <input type="text" id="student_id" name="student_id" class="form-control" placeholder="Search ID..." list="student_suggestions" autocomplete="off" required>
+            <datalist id="student_suggestions"></datalist>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Student Name:</label>
+                    <input type="text" id="student_name" name="student_name" class="form-control" readonly required>
+                </div>
+                <div class="form-group">
+                    <label>Phone:</label>
+                    <input type="text" id="student_phone" name="student_phone" class="form-control" readonly required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="flex: 0 0 30%;">
+                    <label>Book ID:</label>
+                    <input type="text" id="book_id_input" class="form-control" placeholder="ID..." list="book_id_suggestions" autocomplete="off">
+                    <datalist id="book_id_suggestions"></datalist>
+                </div>
+                <div class="form-group">
+                    <label>Book Title:</label>
+                    <input type="text" id="book_title" name="book_title" class="form-control" value="{{ prefilled_title }}" list="book_title_suggestions" autocomplete="off" required>
+                    <datalist id="book_title_suggestions"></datalist>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Issue Date:</label>
+                    <input type="date" id="issue_date" name="issue_date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Due Date:</label>
+                    <input type="date" id="due_date" name="due_date" class="form-control" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">Checkout</button>
+        </form>
+    </div>
+
+    <script>
+        let studentsData = [], booksData = [];
+        const issueDate = document.getElementById('issue_date');
+        const dueDate = document.getElementById('due_date');
+        issueDate.valueAsDate = new Date();
+        dueDate.min = issueDate.value;
+        issueDate.addEventListener('change', () => dueDate.min = issueDate.value);
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/students').then(r => r.json()).then(data => {
+                studentsData = data;
+                const list = document.getElementById('student_suggestions');
+                data.forEach(s => list.innerHTML += `<option value="${s.id}">${s.name} (${s.phone})</option>`);
+            });
+            fetch('/api/books').then(r => r.json()).then(data => {
+                booksData = data;
+                const listID = document.getElementById('book_id_suggestions');
+                const listTitle = document.getElementById('book_title_suggestions');
+                data.forEach(b => {
+                    listID.innerHTML += `<option value="${b.id}">${b.title}</option>`;
+                    listTitle.innerHTML += `<option value="${b.title}"></option>`;
+                });
+            });
+        });
+        document.getElementById('student_id').addEventListener('input', function() {
+            const s = studentsData.find(x => x.id === this.value.trim());
+            document.getElementById('student_name').value = s ? s.name : '';
+            document.getElementById('student_phone').value = s ? s.phone : '';
+        });
+        document.getElementById('book_id_input').addEventListener('input', function() {
+            const b = booksData.find(x => x.id === this.value.trim());
+            if(b) document.getElementById('book_title').value = b.title;
+        });
+        document.getElementById('book_title').addEventListener('input', function() {
+            const b = booksData.find(x => x.title.toLowerCase() === this.value.trim().toLowerCase());
+            if(b) document.getElementById('book_id_input').value = b.id;
+        });
+        document.getElementById('issueForm').addEventListener('submit', () => {
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = "Processing...";
+            btn.disabled = true;
+        });
+    </script>
+</body>
+</html>
